@@ -21,7 +21,7 @@ const minLength = (len) => (val) => (val) && (val.length >= len);
           );
     }    
 
-    function RenderComments({comments}) {
+    function RenderComments({comments, addComment, dishId}) {
       if (comments != null) {
         const comnt = comments.map((comment) => {
            
@@ -39,7 +39,7 @@ const minLength = (len) => (val) => (val) && (val.length >= len);
             <h4>Comments</h4>
             <ul className="list-unstyled">
               {comnt}
-              <CommentForm />
+              <CommentForm dishId={dishId} addComment={addComment} />
             </ul>
           </div>
         );
@@ -69,9 +69,9 @@ const minLength = (len) => (val) => (val) && (val.length >= len);
         });
       }
 
-      handleSubmit(values) {
-        alert("Current State is: " + JSON.stringify(values));
+      handleSubmit(values) {        
         this.toggleModal();
+        this.props.addComment(this.props.dishId, values.rating, values.author, values.comment);
       }
 
       render() {
@@ -96,9 +96,9 @@ const minLength = (len) => (val) => (val) && (val.length >= len);
                   </Col> 
               </Row>
               <Row className="form-group">
-                <Label htmlFor="yourname" md={12}>Your name</Label>
+                <Label htmlFor="author" md={12}>Your name</Label>
                 <Col md={8}>
-                  <Control.text model =".yourname" id="yourname" name="yourname" className="form-control" md={4}
+                  <Control.text model =".author" id="author" name="author" className="form-control" md={4}
                   validators={{
                     required, minLength: minLength(3), maxLength: maxLength(15)
                   }}
@@ -119,9 +119,9 @@ const minLength = (len) => (val) => (val) && (val.length >= len);
               </Row>
 
               <Row className="form-group">
-                <Label htmlFor="comments" md={12}>Comments</Label>
+                <Label htmlFor="comment" md={12}>Comments</Label>
                 <Col md={12}>
-                  <Control.textarea model =".comments" id="comments" name="comments" className="form-control" rows="6" />  
+                  <Control.textarea model =".comment" id="comment" name="comment" className="form-control" rows="6" />  
                 </Col> 
               </Row>
 
@@ -158,7 +158,10 @@ const minLength = (len) => (val) => (val) && (val.length >= len);
               </div>
               <div className="row">          
                   <RenderDish dish={props.dish} />               
-                  <RenderComments comments={props.comments} />
+                  <RenderComments comments={props.comments} 
+                    addComment = {props.addComment} 
+                    dishId = {props.dish.id}/>
+
                                 
               </div>
           </div>
