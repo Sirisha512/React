@@ -32,12 +32,7 @@ const mapDispatchToProps = (dispatch) => ({
   fetchLeaders: () => {dispatch(fetchLeaders())}
 });
 
-class Main extends Component {
-
-  constructor(props) {
-    super(props);
-    
-  }
+class Main extends Component { 
 
   componentDidMount() {
     this.props.fetchDishes();
